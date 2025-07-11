@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>广东省各城市数据柱状图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #chart-container {
+            width: 900px;
+            height: 600px;
+            margin: 30px auto;
+        }
+        h1 {
+            text-align: center;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+    </style>
+</head>
+<body>
+<h1>2025年广东省各地级市口袋公园数量</h1>
+<div id="chart-container"></div>
+
+<script>
+    // 初始化图表
+    var myChart = echarts.init(document.getElementById('chart-container'));
+
+    // 数据（已按值降序排序）
+    var data = [
+        {name: '佛山市', value: 777},
+        {name: '广州市', value: 691},
+        {name: '东莞市', value: 615},
+        {name: '深圳市', value: 565},
+        {name: '珠海市', value: 242},
+        {name: '江门市', value: 147},
+        {name: '中山市', value: 142},
+        {name: '汕头市', value: 136},
+        {name: '湛江市', value: 133},
+        {name: '潮州市', value: 124},
+        {name: '云浮市', value: 122},
+        {name: '肇庆市', value: 104},
+        {name: '惠州市', value: 99},
+        {name: '清远市', value: 82},
+        {name: '揭阳市', value: 69},
+        {name: '梅州市', value: 68},
+        {name: '茂名市', value: 55},
+        {name: '河源市', value: 33},
+        {name: '韶关市', value: 24},
+        {name: '汕尾市', value: 23},
+        {name: '阳江市', value: 23}
+    ];
+
+    // 提取城市名称和数值
+    var cityNames = data.map(function(item) {
+        return item.name;
+    });
+    var values = data.map(function(item) {
+        return item.value;
+    });
+
+    // 配置项
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            name: '数值',
+            axisLine: {
+                lineStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        yAxis: {
+            type: 'category',
+            data: cityNames,
+            axisTick: {
+                alignWithLabel: true
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        series: [{
+            name: '数值',
+            type: 'bar',
+            data: values,
+            itemStyle: {
+                color: function(params) {
+                    // 渐变色
+                    var colorList = [
+                        '#c23531','#2f4554','#61a0a8','#d48265','#91c7ae',
+                        '#749f83','#ca8622','#bda29a','#6e7074','#546570'
+                    ];
+                    return colorList[params.dataIndex % colorList.length];
+                },
+                borderRadius: [0, 4, 4, 0]
+            },
+            label: {
+                show: true,
+                position: 'right',
+                formatter: '{c}'
+            }
+        }]
+    };
+
+    // 应用配置
+    myChart.setOption(option);
+
+    // 响应式调整
+    window.addEventListener('resize', function() {
+        myChart.resize();
+    });
+</script>
+</body>
+</html>
